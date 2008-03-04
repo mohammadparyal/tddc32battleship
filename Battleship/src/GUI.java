@@ -13,6 +13,8 @@ public class GUI {
 	private JButton anslutTillSpelKnapp; //(anropar konstruktorn till Spelkontroll)
 	private JTextField statusFält;
 	
+	/////
+	
 	
 	//SpelRam
 	private JTextField dinTurSkylt;
