@@ -1,8 +1,8 @@
 package Network;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.*;
-
 
 public class Receiver implements Runnable {
 	
@@ -48,7 +48,6 @@ public class Receiver implements Runnable {
 					//the other player has finished placing his ships
 					case 'a':
 //						game.startGame();					//not yet implemented
-						game.print(input.substring(2));
 						break;
 					
 					//Coordinates, string should be formatted as "c:x_coord,y_coord"	
@@ -57,15 +56,11 @@ public class Receiver implements Runnable {
 						int y_begin = input.indexOf(',') + 1;
 						
 						
-						int x_coord = 0;
-						int y_coord = 0;
-						if (input != null)
-						{
-							x_coord = Integer.parseInt(input.substring(
-									x_begin, y_begin - 1));
-							y_coord = Integer.parseInt(input
-									.substring(y_begin));
-						}
+						int x_coord;
+						int y_coord;
+						
+						x_coord = Integer.parseInt(input.substring(x_begin, y_begin - 1));
+						y_coord = Integer.parseInt(input.substring(y_begin));
 						
 						game.print("x= " + x_coord + " y= " + y_coord);
 						
