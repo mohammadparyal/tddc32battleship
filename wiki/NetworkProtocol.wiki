@@ -13,3 +13,4 @@ Det är viktigt att rätt tecken används då programmet utgår ifrån ':' och '
 ||m:sträng||meddelande till chatten||
 ||n:namn||namn på spelaren||
 ||a||"affirmative" dvs klartecken||
+||x||programmet stängdes av||
