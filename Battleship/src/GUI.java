@@ -1,47 +1,41 @@
+import java.awt.GridLayout;
+
 import javax.swing.*;
-import java.awt.*;
+public class GUI extends JFrame {
 
-public class GUI {
-
-	//Parametrar
+	static final long serialVersionUID = 2L;
 	
-	//Ram
-	//MenyRam
-	private JButton startKnapp;
-	private JButton avslutaKnapp;
-	private JButton nyttSpelKnapp; //(anropar konstruktorn till Spelkontroll)
-	private JButton anslutTillSpelKnapp; //(anropar konstruktorn till Spelkontroll)
-	private JTextField statusFält;
-	
-
-	//SpelRam
-	private JTextField dinTurSkylt;
-	
-	//ChatRam
-	private JButton chattKnapp;
-	private JTextField chattfält;
-	
-	//2 Rutnät (skapas utifrån objekt av klassen rutnät)
+	private FlottaGUI flotta;
+	private GridGUI grid;
+	private Spelkontroll spelkontroll;
 	
 	
+	public GUI(int rows, int cols){
+		spelkontroll = new Spelkontroll(this);
+				
+		setLayout(new GridLayout(1, 2));
 		
-	//konstruktor
-	public GUI(){	}
-	
-	//Metoder
-	public void ritaSkepp(){}
-	
-	public void ritaBomb(){}
+	//	mo = new MouseOver();
+		
+		grid = new GridGUI(rows, cols);
 
-	public void sättTräff(){}
+		
+		flotta = new FlottaGUI(grid);
+		
+	//	mo.setVisible(true);
+		
+	//	add(mo);
+		add(grid);
+		add(flotta);
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		pack();
+		
+	}
 	
-	//Metoder direkt från knappar
-	//anropar 1:a konstruktorn i nätverkshanteraren
-	public void nyttSpel() {}
 	
-	//anropar 2:a konstruktorn i nätverkshanteraren. Statusfältet måste visa att det finns ett spel att ansluta till
-	public void anslutTillSpel(){}
-	
-	
-	
+	public GridGUI getGrid(){
+		return grid;
+	}
 }
