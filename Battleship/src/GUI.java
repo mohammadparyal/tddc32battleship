@@ -1,41 +1,78 @@
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 public class GUI extends JFrame {
 
 	static final long serialVersionUID = 2L;
-	
-	private FlottaGUI flotta;
-	private GridGUI grid;
+
+	private FlottaGUI flottaGUI;
+	private GridGUI gridGUI;
+	private GridGUI gridGUI2;
 	private Spelkontroll spelkontroll;
 	
+	private KnappPanel knappPanel;
 	
-	public GUI(int rows, int cols){
+	private JPanel ram;
+
+	private JPanel messagePanel;
+	private JLabel datorMessage;
+	private JLabel personMessage;
+	private JTextArea datorT;
+	private JTextArea personT;
+
+	public GUI(int rows, int cols) {
 		spelkontroll = new Spelkontroll(this);
-				
-		setLayout(new GridLayout(1, 2));
+		gridGUI = new GridGUI(rows, cols);
+		gridGUI2 = new GridGUI(rows, cols);
+		gridGUI.setBorder(new TitledBorder("Din Spelplan"));
+		gridGUI2.setBorder(new TitledBorder("Motståndarens Spelplan"));
+		flottaGUI = new FlottaGUI(gridGUI);
+		flottaGUI.setBorder(new TitledBorder("Fleet"));
+
+		knappPanel = new KnappPanel();
+		//knappPanel.setBorder(new TitledBorder(""));
 		
-	//	mo = new MouseOver();
+		messagePanel = new JPanel();
+		//messagePanel.setBorder(new TitledBorder(""));
+		messagePanel.setLayout(new GridLayout(2,2));
+		datorMessage = new JLabel("Computer message:");
+		personMessage = new JLabel("Chat:");
+		datorT = new JTextArea();
+		datorT.setBorder(new TitledBorder(""));
+		personT = new JTextArea();
+		personT.setBorder(new TitledBorder(""));
+		messagePanel.add(datorMessage);
+		messagePanel.add(datorT);
+		messagePanel.add(personMessage);
+		messagePanel.add(personT);
 		
-		grid = new GridGUI(rows, cols);
+		
+		
+		ram = new JPanel();
+		ram.setLayout(new GridLayout(3, 1));
+		ram.add(flottaGUI);
+		ram.add(messagePanel);
+		ram.add(knappPanel);
+		
+		setLayout(new GridLayout(1, 3));
+
+		add(gridGUI);
+		add(ram);
+		add(gridGUI2);
 
 		
-		flotta = new FlottaGUI(grid);
-		
-	//	mo.setVisible(true);
-		
-	//	add(mo);
-		add(grid);
-		add(flotta);
-		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
+		setTitle("Battleship");
 		pack();
 		
+		setVisible(true);
 	}
-	
-	
-	public GridGUI getGrid(){
-		return grid;
+
+	public GridGUI getGrid() {
+		return gridGUI;
 	}
 }
