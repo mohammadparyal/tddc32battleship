@@ -10,6 +10,7 @@ Det är viktigt att rätt tecken används då programmet utgår ifrån ':' och '
 ||s:des||destroyer||
 ||s:bat||battleship||
 ||s:air||aircraft carrier||
+||s:"name"||Ship.getName()||
 ||m:sträng||meddelande till chatten||
 ||n:namn||namn på spelaren||
 ||a||"affirmative" dvs klartecken||
