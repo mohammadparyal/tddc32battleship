@@ -42,15 +42,35 @@ public class CellGUI extends JComponent {
 	
 	public void setShip(){
 		ship = true;
-		water = new Color(0,100,120);
+		if (grid.getMinSpelplan()){
+			water = new Color(0,100,120);
+			color = water;
+			repaint();
+		}
+		System.out.println("setShip för cellen: " + posX + " och " + posY);
+	}
+	
+	public void setBomb(){
+		bomb = true;
+		water = new Color(0,150,220);
 		color = water;
+		if (ship){
+			water = new Color(0,50,120);
+			color = water;
+		}
 		repaint();
-		System.out.println("Nu användes setShip för cellen: " + posX + " och " + posY);
+		System.out.println("setBomb för cellen: " + posX + " och " + posY);
 	}
 	
 	public void mouseClick(MouseEvent e)
 	{
-		grid.setShip(posX, posY, grid.getDir());
+		
+		if (grid.getMinSpelplan()){
+			if (!grid.getGame().getStart())
+				grid.setShip(posX, posY, grid.getDir());}
+		else{
+			if (grid.getGame().getStart())
+				grid.bomb(posX, posY);}
 	}
 	
 	public void swapColor()

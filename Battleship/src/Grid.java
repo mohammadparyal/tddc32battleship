@@ -5,8 +5,10 @@ public class Grid {
 	
 	private Cell[][] spelplan;
 	private GridGUI gui;
+	private Game spelkontroll;
 	
-	public Grid(int rows, int cols, GridGUI g){
+	public Grid(int rows, int cols, Game ga, GridGUI g){
+		spelkontroll = ga;
 		gui = g;
 		
 		spelplan = new Cell[rows][cols];
@@ -35,6 +37,8 @@ public class Grid {
 					spelplan[X][i].setShip(s.getName());
 				}
 			}
+			else
+				throw new BoatException("gått utanför rutnätet");
 		}
 		
 		if (Y == YY){
@@ -47,6 +51,8 @@ public class Grid {
 					spelplan[i][Y].setShip(s.getName());
 				}
 			}
+			else
+				throw new BoatException("gått utanför rutnätet");
 		}
 		
 		

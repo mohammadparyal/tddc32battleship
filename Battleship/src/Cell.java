@@ -11,6 +11,7 @@ public class Cell {
 	//Metoder som bearbetar cellen
 	public void setBomb(){
 		bomb = true;
+		gui.setBomb();
 	}
 	
 	public void setShip(String ID){

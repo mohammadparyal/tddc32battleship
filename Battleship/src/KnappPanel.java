@@ -17,7 +17,10 @@ public class KnappPanel extends JPanel{
 	private JPanel j1;
 	private JPanel j2;
 
-	public KnappPanel(){
+	private Game game;
+	
+	public KnappPanel(Game g){
+		game = g;
 		start = new JButton("Start");
 		avsluta = new JButton("Close");
 		
@@ -51,7 +54,10 @@ public class KnappPanel extends JPanel{
 	class StartListener implements ActionListener{
 		
 		public void actionPerformed(ActionEvent E){
-			
+			if (game.getFleet().isPlaced())
+				game.setStart();
+			else
+				System.out.println("Det finns skepp kvar att placera ut.");
 		}
 	}
 	
