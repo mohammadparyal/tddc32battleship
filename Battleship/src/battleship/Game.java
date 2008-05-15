@@ -1,7 +1,7 @@
 package battleship;
 
 import gui.*;
-import Network.NetworkPlayer;
+import network.NetworkPlayer;
 import ai.AI;
 import ships.Ship;
 

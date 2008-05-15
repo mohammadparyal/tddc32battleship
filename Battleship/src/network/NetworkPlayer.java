@@ -1,4 +1,4 @@
-package Network;
+package network;
 /**
  * Network class
  */
