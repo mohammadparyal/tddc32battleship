@@ -11,7 +11,7 @@ public class GUI extends JFrame {
 	private FlottaGUI flottaGUI;
 	private GridGUI gridGUI;
 	private GridGUI gridGUI2;
-	private Spelkontroll spelkontroll;
+	private Game spelkontroll;
 	
 	private KnappPanel knappPanel;
 	
@@ -22,17 +22,20 @@ public class GUI extends JFrame {
 	private JLabel personMessage;
 	private JTextArea datorT;
 	private JTextArea personT;
+	
+	public GUI(int rows, int cols, Game g) {
 
-	public GUI(int rows, int cols) {
-		spelkontroll = new Spelkontroll(this);
-		gridGUI = new GridGUI(rows, cols);
-		gridGUI2 = new GridGUI(rows, cols);
+		spelkontroll = g;
+		
+		gridGUI = new GridGUI(rows, cols, spelkontroll, true);
+		gridGUI2 = new GridGUI(rows, cols, spelkontroll, false);
 		gridGUI.setBorder(new TitledBorder("Din Spelplan"));
 		gridGUI2.setBorder(new TitledBorder("Motståndarens Spelplan"));
 		flottaGUI = new FlottaGUI(gridGUI);
 		flottaGUI.setBorder(new TitledBorder("Fleet"));
+//		spelkontroll = new Game(this);
 
-		knappPanel = new KnappPanel();
+		knappPanel = new KnappPanel(spelkontroll);
 		//knappPanel.setBorder(new TitledBorder(""));
 		
 		messagePanel = new JPanel();
@@ -72,7 +75,13 @@ public class GUI extends JFrame {
 		setVisible(true);
 	}
 
-	public GridGUI getGrid() {
+	public GridGUI getGrid1() {
 		return gridGUI;
 	}
+	
+	public GridGUI getGrid2() {
+		return gridGUI2;
+	}
+	
+
 }

@@ -12,12 +12,12 @@ public class Flotta {
 	private int nrBoats = 0;
 	private int nrShips = 0;
 	private int nrCruisers = 0;
-	private int nrBattleships = 0;
+	public int nrBattleships = 0;
 	
 	private int maxBoats;
 	private int maxShips;
 	private int maxCruisers;
-	private int maxBattleships;
+	public int maxBattleships;
 	
 	private List<Ship> boats;
 	private List<Ship> ships;
@@ -43,46 +43,66 @@ public class Flotta {
 	//Metoder som ändrar flottan
 	public void add(Ship s) throws ToManyShipsException{
 		if (s.getLength() == 2){
-			if (nrBoats == maxBoats)
-				throw new ToManyShipsException("Max antal Båtar uppnått");
+//			if (nrBoats == maxBoats)
+//				throw new ToManyShipsException("Max antal Båtar uppnått");
 			boats.add(s);
 			nrBoats++;
 			allShips++;
 		}	
 		if (s.getLength() == 3){
-			if (nrShips == maxShips)
-				throw new ToManyShipsException("Max antal Skepp uppnått");
+//			if (nrShips == maxShips)
+//				throw new ToManyShipsException("Max antal Skepp uppnått");
 			ships.add(s);
 			nrShips++;
 			allShips++;
 		}
 		if (s.getLength() == 4){
-			if (nrCruisers == maxCruisers)
-				throw new ToManyShipsException("Max antal Kryssare uppnått");
+//			if (nrCruisers == maxCruisers)
+//				throw new ToManyShipsException("Max antal Kryssare uppnått");
 			cruisers.add(s);
 			nrCruisers++;
 			allShips++;
 		}
 		if (s.getLength() == 5){
-			if (nrBattleships == maxBattleships)
-				throw new ToManyShipsException("Max antal Slagskepp uppnått");
+//			if (nrBattleships == maxBattleships)
+//				throw new ToManyShipsException("Max antal Slagskepp uppnått");
 			battleships.add(s);
 			nrBattleships++;
 			allShips++;
 		}	
+	}
 
-
-	
+	public boolean shipLeft(int n){
+		if (n == 2)
+			if (nrBoats == maxBoats)
+				return false;
 		
+		if (n == 3)
+			if (nrShips == maxShips)
+				return false;
 		
+		if (n == 4)
+			if (nrCruisers == maxCruisers)
+				return false;
+					
+		if (n == 5)
+			if (nrBattleships == maxBattleships)
+				return false;
+		
+		return true;
 	}
 	
 	//Metoder som ändrar skeppen
 	
 	
 	//Metoder som ger information om flottan
-	public Boolean isPlaced(){
-		return utplacerad;
+	public boolean isPlaced(){
+		if (nrBoats == maxBoats & nrBoats == maxBoats & nrCruisers == maxCruisers & nrBattleships == maxBattleships){
+			return true;
+		}
+		else
+			return false;
+
 	}
 	
 /*	public void printFleet(){
