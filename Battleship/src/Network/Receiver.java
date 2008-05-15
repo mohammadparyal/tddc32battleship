@@ -4,12 +4,14 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.*;
 
+import battleship.*;
+
 public class Receiver implements Runnable {
 	
 	private DataInputStream in = null;
 	private Game game;
 	private Thread receiverThread;
-	private Socket socket;
+	private boolean stopped;
 	
 	public Receiver(Socket socket, Game g)
 	{
@@ -21,8 +23,7 @@ public class Receiver implements Runnable {
 		{
 			e.printStackTrace();
 		}
-		
-		this.socket = socket;
+
 		game = g;
 		receiverThread = new Thread(this);
 	}
@@ -31,65 +32,57 @@ public class Receiver implements Runnable {
 	{
 		if(!receiverThread.isAlive())
 			receiverThread.start();
-	}	
+		
+		stopped = false;
+	}
+	
+	public void stop()
+	{
+		stopped = true;
+	}
 		
 	public void run()
 	{		
 		String input;
-		while(socket.isConnected()) //while(true)
+		while(!stopped) //while(true)
 		{
 			try
 			{
 				while((input = in.readUTF()) != null)
 				{
-					//check to see what kind of string this is
 					switch (input.charAt(0))
-					{
-					//the other player has finished placing his ships
-					case 'a':
-//						game.startGame();					//not yet implemented
+					{		
+					case 'a':	//the other player has finished placing his ships
 						break;
-					
-					//Coordinates, string should be formatted as "c:x_coord,y_coord"	
-					case 'c':
+
+					case 'c':	//koordinater, "c:x,y"
 						int x_begin = input.indexOf(':') + 1;
 						int y_begin = input.indexOf(',') + 1;
-						
-						
-						int x_coord;
-						int y_coord;
-						
-						x_coord = Integer.parseInt(input.substring(x_begin, y_begin - 1));
-						y_coord = Integer.parseInt(input.substring(y_begin));
-						
-						game.print("x= " + x_coord + " y= " + y_coord);
-						
-//						game.bomb(x_coord, y_coord);		//not yet implemented						
+
+						int x_coord = Integer.parseInt(input.substring(x_begin,	y_begin - 1));
+						int y_coord = Integer.parseInt(input.substring(y_begin));
+
+						game.print("Opponent bombed: "+x_coord+y_coord);		//not yet implemented						
 						break;
-						
-					//Result of a bombing, either hit (h) or miss (m)
-					case 'r':
-//						game.getResult(input.charAt(2));	//not yet implemented
-						game.print("Resultatet blev :" + input.substring(2));
+
+					case 'r':	//Result of a bombing, either hit (h) or miss (m)
+//						game.updateResult(hit);
 						break;
-						
-					//some ship was sunk
-					case 's':	
-//						game.youSankMy(input.substring(2));	//not yet implemented
+
+
+					case 's':	//some ship was sunk
 						break;
-						
-					//Message, formatted as "m:This is my message."
-					case 'm':	
-						game.print(input.substring(2));			//not yet implemented
+
+					case 'm':	//Message, "m:This is my message."
+//						game.print(input.substring(2));	
 						break;
-						
-					//other player left the game	
-					case 'x':	
-//						game.playerHasLeft();			//not yet implemented
+
+					case 'x':	//other player left the game
+//						game.close();
 						break;
-						
+
 					default:
-						game.print("unrecognized network input");
+//						game.print(">>" + input);
 						break;
 					}
 				}

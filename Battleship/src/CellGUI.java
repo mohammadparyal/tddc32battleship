@@ -96,11 +96,11 @@ public class CellGUI extends JComponent {
 	class MyMouseHandler extends MouseAdapter {
 		public void mouseEntered(MouseEvent e)
 		{
-			//mouseOn();
+			mouseOn();
 		}
 		public void mouseExited(MouseEvent e)
 		{
-			//mouseOff();
+			mouseOff();
 		}
 		public void mouseClicked(MouseEvent e)
 		{
@@ -110,17 +110,18 @@ public class CellGUI extends JComponent {
 				grid.changeDir();
 		}	
 	}
+
+
+
+	public void mouseOn()
+	{
+		color = mouseColor;
+		repaint();
+	}
+
+	public void mouseOff()
+	{
+		color = water;
+		repaint();
+	}
 }
-
-
-//public void mouseOn()
-//{
-//	color = mouseColor;
-//	repaint();
-//}
-
-//public void mouseOff()
-//{
-//	color = water;
-//	repaint();
-//}
