@@ -22,7 +22,7 @@ public class CellGUI extends JComponent {
 	private boolean ship = false;
 	private boolean bomb = false;
 	
-	private GridGUI grid;
+	private GridGUI gridGUI;
 	
 	private String dir = "South";
 	
@@ -30,7 +30,7 @@ public class CellGUI extends JComponent {
 	{
 		posX = a;
 		posY = b;
-		grid = g;
+		gridGUI = g;
 		this.setPreferredSize(new Dimension(x, y));
 		water = new Color(0,130,180);
 		mouseColor = Color.darkGray;
@@ -42,7 +42,7 @@ public class CellGUI extends JComponent {
 	
 	public void setShip(){
 		ship = true;
-		if (grid.getMinSpelplan()){
+		if (gridGUI.getMinSpelplan()){
 			water = new Color(0,100,120);
 			color = water;
 			repaint();
@@ -62,15 +62,15 @@ public class CellGUI extends JComponent {
 		System.out.println("setBomb för cellen: " + posX + " och " + posY);
 	}
 	
-	public void mouseClick(MouseEvent e)
+	public void mouseClick()
 	{
 		
-		if (grid.getMinSpelplan()){
-			if (!grid.getGame().getStart())
-				grid.setShip(posX, posY, grid.getDir());}
+		if (gridGUI.getMinSpelplan()){
+			if (!gridGUI.getGame().getStart())
+				gridGUI.setShip(posX, posY, gridGUI.getDir());}
 		else{
-			if (grid.getGame().getStart())
-				grid.bomb(posX, posY);}
+			if (gridGUI.getGame().getStart())
+				gridGUI.bomb(posX, posY);}
 	}
 	
 	public void swapColor()
@@ -105,9 +105,9 @@ public class CellGUI extends JComponent {
 		public void mouseClicked(MouseEvent e)
 		{
 			if (SwingUtilities.isLeftMouseButton(e))
-				mouseClick(e);
+				mouseClick();
 			else if (SwingUtilities.isRightMouseButton(e))
-				grid.changeDir();
+				gridGUI.changeDir();
 		}	
 	}
 
