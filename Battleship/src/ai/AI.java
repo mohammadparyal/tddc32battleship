@@ -6,20 +6,20 @@ import ships.*;
 
 import battleship.*;
 
-public class AI {
+public class AI implements Player{
 
 	private Random rand;
 	private Game game;
 	private int boardSizeX = 10;
 	private int boardSizeY = 10;
 
-	private Board board;
+	private Grid board;
 
 	public AI(Game game)
 	{
 		rand = new Random();
 		this.game = game;
-		board = new Board(boardSizeX, boardSizeY);
+		board = game.getMotståndarplan();
 
 		placeBoat(new Ship(5, "Aircraft Carrier"));
 		placeBoat(new Ship(4, "Battleship"));
@@ -28,18 +28,6 @@ public class AI {
 		placeBoat(new Ship(3, "Submarine"));
 
 		// skicka klartecken till spelaren, dvs "a"
-	}
-
-	public AI() // ta bort, enbart för att BattleTest ska fungera!!
-	{
-		rand = new Random();
-		board = new Board(boardSizeX, boardSizeY);
-
-		placeBoat(new Ship(5, "Aircraft Carrier"));
-		placeBoat(new Ship(4, "Battleship"));
-		placeBoat(new Ship(3, "Destroyer"));
-		placeBoat(new Ship(2, "Patrol Boat"));
-		placeBoat(new Ship(3, "Submarine"));
 	}
 
 	/**
@@ -52,9 +40,9 @@ public class AI {
 	 */
 	public void bomb(int x, int y)
 	{
-		if (board.isFree(x, y)) // ej träff
+		if (!board.hasShip(x, y)) // ej träff
 		{
-			board.placeBomb(x, y);
+			board.bomba(x, y);
 			game.print("Miss!");
 		}
 		else
@@ -66,7 +54,7 @@ public class AI {
 				game.print("You sunk my " + board.getShip(x, y).getName());
 				// uppdatera
 			}
-			board.placeBomb(x, y);
+			board.bomba(x, y);
 			game.print("Hit!");
 		}
 	}
@@ -83,11 +71,12 @@ public class AI {
 		{
 			x = rand.nextInt(boardSizeX);
 			y = rand.nextInt(boardSizeY);
+			System.out.println(x + " : " + y);
 		}
-		while (!game.getBoard().isBombed(x, y)); // om koordinaten är bombad
+		while (board.isBombed(x, y)); // om koordinaten är bombad
 													// gör ny
-
-		game.getBoard().placeBomb(x, y);
+		
+		game.sättBomb(x, y);
 	}
 
 	/**
@@ -108,7 +97,7 @@ public class AI {
 		if (direction == 0)
 		{
 			yStart = rand.nextInt(boardSizeY); // y c [0,10[
-			xStart = rand.nextInt(boardSizeX - boat.getLength() + 1);
+			xStart = rand.nextInt(boardSizeX - boat.getLength());
 			xEnd = xStart + boat.getLength();
 
 			// kolla så att alla koordinater är lediga
@@ -117,14 +106,18 @@ public class AI {
 			for (int i = xStart; i < xEnd; i++)
 			{
 				if (free)
-					free = board.isFree(i, yStart);
+					free = !board.hasShip(i, yStart);
 			}
-
 			if (free)
 			{
 				// lägg skeppet till spelbrädan
+				System.out.println("kkkkkkkkkkkkkkkkkk");
 				boat.setHorizontal();
-				board.placeShip(boat, xStart, yStart);
+				try {
+					board.setShip(boat, xStart, yStart, xStart+boat.getLength()-1, yStart);
+				} catch (BoatException e) {
+					e.printStackTrace();
+				}
 			}
 			else
 				// gör om
@@ -133,27 +126,39 @@ public class AI {
 		else
 		// vertikal
 		{
+			System.out.println("vertikal");
 			xStart = rand.nextInt(boardSizeX);
-			yStart = rand.nextInt(boardSizeY - boat.getLength() + 1);
+			yStart = rand.nextInt(boardSizeY - boat.getLength());
 			yEnd = yStart + boat.getLength();
 
 			boolean free = true;
 			for (int i = yStart; i < yEnd; i++)
 			{
 				if (free)
-					free = board.isFree(xStart, i);
+					free = !board.hasShip(xStart, i);
 			}
 
 			if (free)
 			{
 				// lägg skeppet till spelbrädan
 				boat.setVertical();
-				board.placeShip(boat, xStart, yStart);
+				try {
+					board.setShip(boat, xStart, yStart, xStart, yStart+boat.getLength()-1);
+				} catch (BoatException e) {
+					e.printStackTrace();
+				}
 			}
 			else
 				// gör om
 				placeBoat(boat);
 		}
+	}
+	
+	public void goAhead()
+	{
+		System.out.println("goahead");
+		randBomb();
+
 	}
 
 	public void printBoard()

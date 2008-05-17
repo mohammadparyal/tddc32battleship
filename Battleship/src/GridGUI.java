@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-import Båtar.Ship;
+import ships.Ship;
 
 //import Cell.MyMouseHandler;
 
@@ -35,7 +35,7 @@ public class GridGUI extends JComponent{
 		spelkontroll = g;
 		
 		minSpelplan = b;
-		fleet = new Flotta(2, 1, 1, 1); 
+		fleet = new Flotta(1, 1, 1, 1); 
 		
 		this.rows = rows;
 		this.cols = cols;

@@ -1,5 +1,7 @@
-import Båtar.Ship;
+import network.NetworkPlayer;
+import ships.Ship;
 //import Network.*;
+import ai.*;
 
 public class Game {
 	
@@ -20,11 +22,14 @@ public class Game {
 	
 	private Flotta fleet;
 	
-	
+	private Player player;
 	//konstruktor
 	public Game(){
 		int rows = 10;
 		int cols = 10;
+		
+		
+		
 		GUI gui = new GUI(rows, cols, this);
 		
 		spelplan1 = gui.getGrid1().getGrid();
@@ -33,7 +38,9 @@ public class Game {
 		fleet = gui.getGrid1().getFleet();
 		
 		
-		Ship ship = new Ship(5, "bbb"); 
+		Ship ship = new Ship(5, "bbb");
+	//	gui.getGrid2().setShip(0, 1, "south");
+ 
 		try {
 			spelplan2.setShip(ship, 0, 4, 0 + ship.getLength() - 1, 4);
 		} catch (BoatException e) {
@@ -49,6 +56,22 @@ public class Game {
 		
 	
 	//Metoder
+	
+	public void makeAI()
+	{
+		player = new AI(this);
+	}
+	
+	public void makeNetwork()
+	{
+		player = new NetworkPlayer(this);
+	}
+	
+	public void print(String s)
+	{
+		gui.updateStatus(s);
+	}
+	
 	public void sättSkepp(){}
 	
 	public void sättBomb(){}

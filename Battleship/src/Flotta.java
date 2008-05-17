@@ -1,6 +1,6 @@
 import java.util.*;
 
-import Båtar.*;
+import ships.Ship;
 
 public class Flotta {
 	//private List<Ship> flotta;

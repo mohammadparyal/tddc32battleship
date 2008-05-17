@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import ships.Ship;
+
 
 
 public class GUI extends JFrame {
@@ -18,7 +20,12 @@ public class GUI extends JFrame {
 	private GridGUI gridGUI2;
 	private Game game;
 	
-	
+	private JPanel opponentPanel;
+//	private JButton networkButton;
+	private JButton aiButton;
+	private JTextField addressfield;
+	private JButton createButton;
+	private JButton connectButton;
 	
 ///////////////////////////////////////////////
 	private JPanel ram;
@@ -82,6 +89,20 @@ public class GUI extends JFrame {
 
 		
 		
+		//opponentfield
+		opponentPanel = new JPanel();
+		opponentPanel.setBorder(new TitledBorder("Opponent"));
+		opponentPanel.add(aiButton = new JButton("AI"));
+		opponentPanel.add(createButton = new JButton("Create"));
+		opponentPanel.add(addressfield = new JTextField("127.0.0.1"));
+		opponentPanel.add(connectButton = new JButton("Connect"));
+
+		aiButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				game.makeAI();
+			}
+		});
 		//FlottaGUI
 		flottaGUI = new JPanel();
 		flottaGUI.setBorder(new TitledBorder("Fleet"));
@@ -174,7 +195,8 @@ public class GUI extends JFrame {
 		
 		
 		ram = new JPanel();
-		ram.setLayout(new GridLayout(3, 1));
+		ram.setLayout(new GridLayout(4, 1));
+		ram.add(opponentPanel);
 		ram.add(flottaGUI);
 		ram.add(messagePanel);
 		ram.add(knappPanel);

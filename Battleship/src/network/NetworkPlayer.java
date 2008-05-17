@@ -8,7 +8,7 @@ import java.io.*;
 
 import battleship.*; // här ligger game, player (möjligtvis mer)
 
-public class NetworkPlayer {
+public class NetworkPlayer implements Player{
 
 	private ServerSocket serverSocket = null;
 	private Socket socket = null;

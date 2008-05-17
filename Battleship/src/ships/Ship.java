@@ -5,6 +5,7 @@ public class Ship {
 	private String name;
 	private int health;
 	private boolean vertical;
+	private boolean isPlaced;
 
 	public Ship(int l, String n)
 	{
@@ -42,6 +43,10 @@ public class Ship {
 	public void hit()
 	{
 		health--;
+		System.out.println(health);
+		if (health == 0){
+			System.out.println("nu sänktes " + name);
+		}
 	}
 
 	public boolean isSunk()
@@ -55,5 +60,13 @@ public class Ship {
 			vertical = false;
 		else
 			vertical = true;
+	}
+	
+	public boolean isPlaced() {
+		return isPlaced;
+	}
+
+	public void setPlaced() {
+		isPlaced = true;
 	}
 }

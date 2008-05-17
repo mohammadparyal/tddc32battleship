@@ -1,9 +1,12 @@
+import ships.Ship;
+
 
 public class Cell {
 	private boolean bomb = false;
 	private boolean skepp = false;
 	private String skeppID;
-	private CellGUI gui;
+	private Ship ship;
+	private CellGUI cellGUI;
 	
 	
 	
@@ -11,19 +14,22 @@ public class Cell {
 	//Metoder som bearbetar cellen
 	public void setBomb(){
 		bomb = true;
-		gui.setBomb();
+		cellGUI.setBomb();
+		if (skepp){
+			System.out.println(ship.getName());
+		}
 	}
 	
-	public void setShip(String ID){
-		skepp = true;
-		skeppID = ID;
-		gui.setShip();
+	public void setShip(Ship ship){
+		this.ship = ship;
+//		skepp = true;
+//		skeppID = ID;
+		cellGUI.setShip();
 	}
 	
 	public void addGUI(CellGUI c){
-		gui = c;
+		cellGUI = c;
 	}
-	
 	
 	//Metoder som ger information om cellen
 	public boolean hasShip(){
@@ -39,6 +45,6 @@ public class Cell {
 	}
 	
 	public CellGUI getGUI(){
-		return gui;
+		return cellGUI;
 	}
 }

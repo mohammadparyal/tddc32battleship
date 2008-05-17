@@ -1,4 +1,4 @@
-import Båtar.Ship;
+import ships.Ship;
 
 
 public class Grid {
@@ -26,15 +26,16 @@ public class Grid {
 	
 	//Metoder
 	//Metoder som bearbetar rutnät
-	public void setShip (Ship s, int X, int Y, int XX, int YY) throws BoatException{
+	public void setShip (Ship ship, int X, int Y, int XX, int YY) throws BoatException{
+		
 		if (X == XX){
-			if (YY <= 9){
+			if (YY < spelplan.length){
 				for (int i = Y; i <= YY; i++){
 					if (spelplan[X][i].hasShip())
 						throw new BoatException("Plats upptagen");
 				}
 				for(int i = Y; i <= YY; i++){
-					spelplan[X][i].setShip(s.getName());
+		//			spelplan[X][i].setShip(ship);
 				}
 			}
 			else
@@ -42,13 +43,13 @@ public class Grid {
 		}
 		
 		if (Y == YY){
-			if (XX <= 9){
+			if (XX < spelplan.length){
 				for (int i = X; i <= XX; i++){
 					if (spelplan[i][Y].hasShip())
 						throw new BoatException("Plats upptagen");
 				}
 				for(int i = X; i <= XX; i++){
-					spelplan[i][Y].setShip(s.getName());
+					spelplan[i][Y].setShip(ship);
 				}
 			}
 			else
@@ -67,6 +68,8 @@ public class Grid {
 	 * @param korY
 	 */
 	public void bomba(int korX, int korY){
+		//player.setBomb(korX, korY);
+		
 		spelplan[korX][korY].setBomb();
 	}
 	
