@@ -26,12 +26,16 @@ public class GridGUI extends JComponent{
 	
 	private Game spelkontroll;
 	
-	public GridGUI(int rows, int cols, Game g, boolean b)
+	private GUI gui;
+	
+	public GridGUI(int rows, int cols, Game g, boolean b, GUI gu)
 	{		
+		
+		gui = gu;
 		spelkontroll = g;
 		
 		minSpelplan = b;
-		fleet = new Flotta(1, 1, 1, 1); 
+		fleet = new Flotta(2, 1, 1, 1); 
 		
 		this.rows = rows;
 		this.cols = cols;
@@ -71,8 +75,8 @@ public class GridGUI extends JComponent{
 				if (dir == "South") {
 					try {
 						grid.setShip(ship, x, y, x + ship.getLength() - 1, y);
-						System.out.println("Nu läggs ett skepp till");
 						fleet.add(ship);
+						gui.updateFleetGUI();
 					} catch (BoatException e) {
 						System.out.println(e);
 					}
@@ -83,6 +87,7 @@ public class GridGUI extends JComponent{
 						grid.setShip(ship, x, y, x, y + ship.getLength() - 1);
 						System.out.println("Nu läggs ett skepp till");
 						fleet.add(ship);
+						gui.updateFleetGUI();
 					} catch (BoatException e) {
 						System.out.println(e);
 					}
