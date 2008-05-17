@@ -102,9 +102,31 @@ public class Flotta {
 		}
 		else
 			return false;
-
 	}
 	
+	public String boatLeft(){
+		int left = maxBoats - nrBoats;
+		String temp = String.valueOf(left);
+		return temp;
+	}
+
+	public String shipLeft(){
+		int left = maxShips - nrShips;
+		String temp = String.valueOf(left);
+		return temp;
+	}
+	
+	public String cruiserLeft(){
+		int left = maxCruisers - nrCruisers;
+		String temp = String.valueOf(left);
+		return temp;
+	}
+	
+	public String battleshipLeft(){
+		int left = maxBattleships - nrBattleships;
+		String temp = String.valueOf(left);
+		return temp;
+	}
 /*	public void printFleet(){
 		System.out.println("Flottan består av " + antalSkepp + " skepp, varav ");
 		System.out.println(antalBoats + " Båtar");

@@ -1,5 +1,5 @@
 import Båtar.Ship;
-import Network.*;
+//import Network.*;
 
 public class Game {
 	
