@@ -6,6 +6,11 @@ import ships.*;
 
 import battleship.*;
 
+/**
+ * Handles a computer controlled opponent. 
+ * @author Lars Öberg and David Gunnarsson
+ *
+ */
 public class AI implements Player{
 
 	private Random rand;
@@ -14,54 +19,48 @@ public class AI implements Player{
 	private int boardSizeY = 10;
 
 	private Grid board;
+	
+	private Fleet aiFleet;
 
 	public AI(Game game)
 	{
 		rand = new Random();
 		this.game = game;
-		board = game.getMotståndarplan();
+		board = game.getOpponentBoard();
 
-		placeBoat(new Ship(5, "Aircraft Carrier"));
-		placeBoat(new Ship(4, "Battleship"));
-		placeBoat(new Ship(3, "Destroyer"));
-		placeBoat(new Ship(2, "Patrol Boat"));
-		placeBoat(new Ship(3, "Submarine"));
-
-		// skicka klartecken till spelaren, dvs "a"
+		aiFleet = board.getGridGUI().getFleet();
+		for (int index = 0; index < 5; index++){
+			placeBoat(aiFleet.getShip(index));
+		}
+		game.setOpponentStart();
 	}
 
 	/**
-	 * Spelaren bombar datorn
-	 * 
+	 * Places a bomb on the ai board.
 	 * @param x
-	 *            x-koordinat
 	 * @param y
-	 *            y-koordinat
 	 */
 	public void bomb(int x, int y)
 	{
-		if (!board.hasShip(x, y)) // ej träff
+		board.setBomb(x, y);
+		if (!board.hasShip(x, y))
 		{
-			board.bomba(x, y);
-			game.print("Miss!");
+			game.printToStatusField("Miss!");
 		}
 		else
-		// träff
+	
 		{
-			board.getShip(x, y).hit();
+			game.printToStatusField("Hit!");
+			
 			if (board.getShip(x, y).isSunk())
 			{
-				game.print("You sunk my " + board.getShip(x, y).getName());
-				// uppdatera
+				game.printToStatusField("You sunk my " + board.getShip(x, y).getName());
 			}
-			board.bomba(x, y);
-			game.print("Hit!");
 		}
 	}
 
 	/**
-	 * Datorn väljer slumpmässiga koordinater på spelbrädan att bomba. Kollar
-	 * först så att koordinaten inte redan är bombad
+	 * Chooses random coordinates on the board to bomb. 
 	 */
 	public void randBomb()
 	{
@@ -71,16 +70,14 @@ public class AI implements Player{
 		{
 			x = rand.nextInt(boardSizeX);
 			y = rand.nextInt(boardSizeY);
-			System.out.println(x + " : " + y);
 		}
-		while (board.isBombed(x, y)); // om koordinaten är bombad
-													// gör ny
+		while (board.isBombed(x, y)); 		
+		game.placeBomb(x, y);
 		
-		game.sättBomb(x, y);
 	}
 
 	/**
-	 * Placerar ett skepp slumpmässigt på spelplanen
+	 * Places a ship on the board.
 	 * 
 	 * @param boat
 	 */
@@ -90,18 +87,15 @@ public class AI implements Player{
 		int yEnd = 0;
 		int xStart = 0;
 		int xEnd = 0;
-		// direction
 		int direction = rand.nextInt(2);
 
-		// direction == 0 => horisontellt läge
+		// direction == 0 => horizontal
 		if (direction == 0)
 		{
-			yStart = rand.nextInt(boardSizeY); // y c [0,10[
+			yStart = rand.nextInt(boardSizeY); 
 			xStart = rand.nextInt(boardSizeX - boat.getLength());
 			xEnd = xStart + boat.getLength();
-
-			// kolla så att alla koordinater är lediga
-
+			
 			boolean free = true;
 			for (int i = xStart; i < xEnd; i++)
 			{
@@ -110,8 +104,6 @@ public class AI implements Player{
 			}
 			if (free)
 			{
-				// lägg skeppet till spelbrädan
-				System.out.println("kkkkkkkkkkkkkkkkkk");
 				boat.setHorizontal();
 				try {
 					board.setShip(boat, xStart, yStart, xStart+boat.getLength()-1, yStart);
@@ -120,13 +112,10 @@ public class AI implements Player{
 				}
 			}
 			else
-				// gör om
 				placeBoat(boat);
 		}
 		else
-		// vertikal
 		{
-			System.out.println("vertikal");
 			xStart = rand.nextInt(boardSizeX);
 			yStart = rand.nextInt(boardSizeY - boat.getLength());
 			yEnd = yStart + boat.getLength();
@@ -140,7 +129,6 @@ public class AI implements Player{
 
 			if (free)
 			{
-				// lägg skeppet till spelbrädan
 				boat.setVertical();
 				try {
 					board.setShip(boat, xStart, yStart, xStart, yStart+boat.getLength()-1);
@@ -149,20 +137,22 @@ public class AI implements Player{
 				}
 			}
 			else
-				// gör om
 				placeBoat(boat);
 		}
 	}
 	
 	public void goAhead()
 	{
-		System.out.println("goahead");
 		randBomb();
-
+		game.changeTurn();
 	}
 
-	public void printBoard()
+	public void sendMessage(String s)
 	{
-		System.out.println(board.toString());
+		game.printToChat("I can't talk to you.");
 	}
+	public void setOpponentReady() {}
+	
+	public void exit(){}
+	
 }

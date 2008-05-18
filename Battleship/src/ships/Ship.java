@@ -1,14 +1,23 @@
 package ships;
+import battleship.*;
 
+/**
+ * Contains length, name and orientation of the ship and also what fleet it
+ * belongs to. 
+ * @author Lars Öberg and David Gunnarsson
+ *
+ */
 public class Ship {
 	private int length;
 	private String name;
 	private int health;
 	private boolean vertical;
 	private boolean isPlaced;
+	private Fleet fleet;
 
-	public Ship(int l, String n)
+	public Ship(int l, String n, Fleet f)
 	{
+		fleet = f;
 		length = l;
 		name = n;
 		health = length;
@@ -43,9 +52,8 @@ public class Ship {
 	public void hit()
 	{
 		health--;
-		System.out.println(health);
-		if (health == 0){
-			System.out.println("nu sänktes " + name);
+		if (isSunk()){
+			fleet.isSunk();
 		}
 	}
 
