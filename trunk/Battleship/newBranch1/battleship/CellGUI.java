@@ -60,7 +60,7 @@ public class CellGUI extends JComponent {
 	public void setShip(){
 		ship = true;
 		if (gridGUI.isMyBoard()){
-			water = new Color(0,100,120);
+			water = Color.gray;
 			color = water;
 			repaint();
 		}
@@ -71,10 +71,10 @@ public class CellGUI extends JComponent {
 	 * gets one color and else it gets another color. 
 	 */
 	public void setBomb(){
-		water = new Color(0,150,220);
+		water = Color.black;
 		color = water;
 		if (ship){
-			water = new Color(0,50,120);
+			water = Color.red;
 			color = water;
 		}
 		repaint();
