@@ -13,11 +13,12 @@ public class Grid {
 
 	private Cell[][] spelplan;
 	private GridGUI gridGUI;
+	private int boardSizeX;
 
 	// Constructor
 	public Grid(int rows, int cols, GridGUI g) {
 		gridGUI = g;
-
+		boardSizeX = cols;
 		spelplan = new Cell[rows][cols];
 
 		for (int row = 0; row < rows; row++)
@@ -41,26 +42,26 @@ public class Grid {
 				for (int i = yStart; i <= yEnd; i++) {
 
 					if (spelplan[xStart][i].hasShip())
-						throw new BoatException("Plats upptagen");
+						throw new BoatException("Place taken");
 				}
 				for (int i = yStart; i <= yEnd; i++) {
 					spelplan[xStart][i].setShip(ship);
 				}
 			} else
-				throw new BoatException("gått utanför rutnätet");
+				throw new BoatException("Outside of grid");
 		}
 
 		if (yStart == yEnd) {
 			if (xEnd < spelplan.length) {
 				for (int i = xStart; i <= xEnd; i++) {
 					if (spelplan[i][yStart].hasShip())
-						throw new BoatException("Plats upptagen");
+						throw new BoatException("Place taken");
 				}
 				for (int i = xStart; i <= xEnd; i++) {
 					spelplan[i][yStart].setShip(ship);
 				}
 			} else
-				throw new BoatException("gått utanför rutnätet");
+				throw new BoatException("Outside of grid");
 		}
 		ship.setPlaced();
 	}
@@ -98,5 +99,10 @@ public class Grid {
 
 	public GridGUI getGridGUI() {
 		return gridGUI;
+	}
+	
+	public int getXSize()
+	{
+		return boardSizeX;
 	}
 }

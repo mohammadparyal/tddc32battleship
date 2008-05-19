@@ -15,10 +15,11 @@ public class AI implements Player{
 
 	private Random rand;
 	private Game game;
-	private int boardSizeX = 10;
-	private int boardSizeY = 10;
+	private int boardSizeX;
+	private int boardSizeY;
 
 	private Grid board;
+	private Grid playerBoard;
 	
 	private Fleet aiFleet;
 
@@ -27,7 +28,9 @@ public class AI implements Player{
 		rand = new Random();
 		this.game = game;
 		board = game.getOpponentBoard();
-
+		playerBoard = game.getPlayerBoard();
+		boardSizeX = board.getXSize();
+		boardSizeY = boardSizeX;
 		aiFleet = board.getGridGUI().getFleet();
 		for (int index = 0; index < 5; index++){
 			placeBoat(aiFleet.getShip(index));
@@ -42,17 +45,19 @@ public class AI implements Player{
 	 */
 	public void bomb(int x, int y)
 	{
+		boolean hasShip = board.hasShip(x, y);
+		Ship sunkShip = board.getShip(x, y);
+
 		board.setBomb(x, y);
-		if (!board.hasShip(x, y))
+		if (!hasShip)
 		{
 			game.printToStatusField("Miss!");
 		}
-		else
-	
+		else	
 		{
 			game.printToStatusField("Hit!");
 			
-			if (board.getShip(x, y).isSunk())
+			if (sunkShip.isSunk())
 			{
 				game.printToStatusField("You sunk my " + board.getShip(x, y).getName());
 			}
@@ -71,9 +76,8 @@ public class AI implements Player{
 			x = rand.nextInt(boardSizeX);
 			y = rand.nextInt(boardSizeY);
 		}
-		while (board.isBombed(x, y)); 		
-		game.placeBomb(x, y);
-		
+		while (playerBoard.isBombed(x, y)); 	
+		game.placeBomb(x, y);		
 	}
 
 	/**
@@ -119,7 +123,7 @@ public class AI implements Player{
 			xStart = rand.nextInt(boardSizeX);
 			yStart = rand.nextInt(boardSizeY - boat.getLength());
 			yEnd = yStart + boat.getLength();
-
+			
 			boolean free = true;
 			for (int i = yStart; i < yEnd; i++)
 			{
@@ -149,7 +153,7 @@ public class AI implements Player{
 
 	public void sendMessage(String s)
 	{
-		game.printToChat("I can't talk to you.");
+		game.printToChat(s);
 	}
 	public void setOpponentReady() {}
 	
