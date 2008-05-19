@@ -139,7 +139,7 @@ public class GUI extends JFrame {
 
 		chatLabel = new JLabel("Chat");
 		chatText = new JTextField();
-		chatText.setPreferredSize(new Dimension(200,25));
+		chatText.setPreferredSize(new Dimension(300,25));
 		chatText.addActionListener(new ChatListener());
 		chatButton = new JButton("Send");
 

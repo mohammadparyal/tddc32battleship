@@ -79,29 +79,7 @@ public class CellGUI extends JComponent {
 		}
 		repaint();
 	}
-	
-	/**
-	 * Depending on the value of certain booleans in game and griGUI different
-	 * actions are called by the method mouseClick. For example if the cell
-	 * belongs to MyBoard then the setShip method is called, and otherwise
-	 * the setBomb method is called.
-	 */
-	public void mouseClick()
-	{		
-		if (gridGUI.isMyBoard()){
-			if (!gridGUI.getGame().bothPlayersReady())
-				gridGUI.setShip(posX, posY);}
-		else{
-			if (gridGUI.getGame().bothPlayersReady()){
-				if (!gridGUI.isBombed(posX, posY)){
-					gridGUI.bomb(posX, posY);
-					gridGUI.getGame().changeTurn();
-				}
-				else
-					gridGUI.getGame().printToStatusField("Platsen är redan bombad");
-			}
-		}
-	}
+		
 	
 	/**
 	 * If the color is water color it changes to mouseColor.
@@ -179,6 +157,29 @@ public class CellGUI extends JComponent {
 		}
 	}
 	
+	/**
+	 * Depending on the value of certain booleans in game and griGUI different
+	 * actions are called by the method mouseClick. For example if the cell
+	 * belongs to MyBoard then the setShip method is called, and otherwise
+	 * the setBomb method is called.
+	 */
+	public void mouseClick()
+	{		
+		if (gridGUI.isMyBoard()){
+			if (!gridGUI.getGame().bothPlayersReady())
+				gridGUI.setShip(posX, posY);}
+		else{
+			if (gridGUI.getGame().bothPlayersReady()){
+				if (!gridGUI.isBombed(posX, posY)){
+					gridGUI.bomb(posX, posY);
+					gridGUI.getGame().changeTurn();
+				}
+				else
+					gridGUI.getGame().printToStatusField("Already bombed!");
+			}
+		}
+	}	
+	
 	@Override
 	public void paintComponent(Graphics g)
 	{
@@ -216,11 +217,14 @@ public class CellGUI extends JComponent {
 		@Override
 		public void mouseClicked(MouseEvent e)
 		{
+			Game game = gridGUI.getGame();
 			if (SwingUtilities.isLeftMouseButton(e)){
-				if (gridGUI.getGame().isMyTurn())
+				if (game.isMyTurn())
 					mouseClick();
+				else if(!game.isGameOver())
+					game.printToStatusField("Not your turn");
 				else
-					gridGUI.getGame().printToStatusField("Inte din tur");
+					game.printToStatusField("Game Over");
 			}
 
 			else if (SwingUtilities.isRightMouseButton(e)){

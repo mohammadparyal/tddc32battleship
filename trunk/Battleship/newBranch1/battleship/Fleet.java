@@ -15,10 +15,12 @@ public class Fleet {
 
 	private ArrayList<Ship> ships;
 	private Game game;
+	private boolean isMyFleet;
 	
 	//Constructor	
-	public Fleet(Game game){
+	public Fleet(Game game, boolean isMyFleet){
 		this.game = game;
+		this.isMyFleet = isMyFleet;
 		ships = new ArrayList<Ship>();
 		ships.add(new Ship(5, "Aircraft Carrier", this));
 		ships.add(new Ship(4, "Battleship", this));
@@ -60,7 +62,10 @@ public class Fleet {
 				isSunk = s.isSunk();
 			}
 		}
-		if (isSunk)
-			game.printToStatusField("You win!");		
+		if (isSunk && isMyFleet)
+		{
+			game.sendMessage("---===You win!===---");
+			game.setGameOver();
+		}
 	}
 }
