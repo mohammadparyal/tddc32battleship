@@ -71,13 +71,14 @@ public class GUI extends JFrame {
 		
 		gridGUI = new GridGUI(rows, cols, game, true, this);
 		gridGUI2 = new GridGUI(rows, cols, game, false, this);
-		gridGUI.setBorder(new TitledBorder("Din Spelplan"));
-		gridGUI2.setBorder(new TitledBorder("Motståndarens Spelplan"));		
+		gridGUI.setBorder(new TitledBorder("Your board"));
+		gridGUI2.setBorder(new TitledBorder("Opponent's board"));		
 		
 		//opponentfield
 		opponentPanel = new JPanel();
 		opponentPanel.setBorder(new TitledBorder("Opponent"));
 		opponentPanel.add(addressfield = new JTextField("127.0.0.1"));
+		addressfield.setPreferredSize(new Dimension(100,20));
 		opponentPanel.add(createButton = new JButton("Create"));
 		createButton.addActionListener(new  ActionListener()
 		{
@@ -245,7 +246,7 @@ public class GUI extends JFrame {
 			if (gridGUI.getFleet().isPlaced())
 				game.setPlayerReady();
 			else
-				System.out.println("Det finns skepp kvar att placera ut.");
+				System.out.println("There are still ships to place");
 		}
 	}
 

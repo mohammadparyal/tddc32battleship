@@ -67,5 +67,11 @@ public class Fleet {
 			game.sendMessage("---===You win!===---");
 			game.setGameOver();
 		}
+		if(isSunk && !isMyFleet)
+		{
+			game.printToStatusField("---===You win!===---");
+			game.setGameOver();
+		}
+		
 	}
 }
