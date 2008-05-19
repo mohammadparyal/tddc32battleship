@@ -26,6 +26,7 @@ public class Game {
 	private Player opponent;
 	
 	private boolean myTurn = true;
+	private boolean isGameOver = false;
 	private int port;
 
 	//Constructor
@@ -38,8 +39,8 @@ public class Game {
 		playerBoard = gui.getGrid1().getGrid();
 		opponentBoard = gui.getGrid2().getGrid();		
 	}	
-	
-	//Methods to use on the opponent.
+
+		//Methods to use on the opponent.
 		public void makeAI()
 	{
 		opponent = new AI(this);
@@ -54,10 +55,13 @@ public class Game {
 	
 	public void connectNetwork(String address)
 	{
-		NetworkPlayer net = new NetworkPlayer(this);
-		opponent = net;
-		net.connect(address, port);
-		myTurn = false;
+		if (opponent == null)
+		{
+			NetworkPlayer net = new NetworkPlayer(this);
+			opponent = net;
+			net.connect(address, port);
+			myTurn = false;
+		}
 		
 	}
 	
@@ -141,12 +145,27 @@ public class Game {
 		if(!myTurn){
 			opponent.goAhead();
 		}
+		else
+			printToStatusField("Your turn");
 	}
-	
+
 	public boolean isMyTurn(){
-		return myTurn;
+		if(!playerReady)
+			return true;
+		else
+			return myTurn;
 	}	
 	
+	public boolean isGameOver()
+	{
+		return isGameOver;
+	}
+
+	public void setGameOver()
+	{
+		isGameOver = true;
+	}
+
 	public void close()
 	{
 		if (opponent != null) {

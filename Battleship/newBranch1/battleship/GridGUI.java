@@ -25,22 +25,22 @@ public class GridGUI extends JComponent {
 	private int shipIndex = 0;
 
 	private boolean vertical = true;
-	private boolean minSpelplan;
+	private boolean isMyBoard;
 	
 	private Fleet fleet;
 	private Game game;
 	private GUI gui;
 	private Grid grid;
 
-	public GridGUI(int rows, int cols, Game g, boolean b, GUI gu) {
+	public GridGUI(int rows, int cols, Game g, boolean isMyBoard, GUI gu) {
 		setLayout(new GridLayout(rows, cols));
 		this.rows = rows;
 		this.cols = cols;
 		
 		gui = gu;
 		game = g;
-		minSpelplan = b;
-		fleet = new Fleet(game);
+		this.isMyBoard = isMyBoard;
+		fleet = new Fleet(game, isMyBoard);
 		cellTable = new CellGUI[rows][cols];
 
 		for (int row = 0; row < rows; row++) {
@@ -49,9 +49,7 @@ public class GridGUI extends JComponent {
 				this.add(cellTable[row][col]);
 			}
 		}
-
 		grid = new Grid(rows, cols, this);
-
 	}
 
 	public void changeDir() {
@@ -126,7 +124,7 @@ public class GridGUI extends JComponent {
 	}
 
 	public boolean isMyBoard() {
-		return minSpelplan;
+		return isMyBoard;
 	}
 
 	public Grid getGrid() {

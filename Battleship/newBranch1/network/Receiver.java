@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.*;
 
 import battleship.*;
+import ships.Ship;
 
 /**
  * Makes a thread that runs constantly to check for incoming Strings
@@ -41,7 +42,7 @@ public class Receiver implements Runnable {
 	{
 		if (!receiverThread.isAlive())
 			receiverThread.start();
-
+		game.printToStatusField("Connected");
 		stopped = false;
 	}
 
@@ -79,23 +80,33 @@ public class Receiver implements Runnable {
 								y_begin - 1));
 						int y_coord = Integer
 								.parseInt(input.substring(y_begin));
-
+						
+						Ship sunkShip = game.getPlayerBoard().getShip(x_coord, y_coord);
 						boolean hit = game.placeBomb(x_coord, y_coord);
 						
 						if(hit)
+						{
 							net.send("r:h");
+							if(sunkShip.isSunk())
+								net.send("s:"+sunkShip.getName());
+						}
 						else
-							net.send("r:m");
+							net.send("r:m");						
 						game.changeTurn();
 						
 						break;
 
 					case 'r': // Result of a bombing, either hit (h) or miss
 						boolean hit2 = (input.charAt(2) == 'h');	
-						game.setHit(hit2);						
+						game.setHit(hit2);
+						if(hit2)
+							game.printToStatusField("Hit");
+						else
+							game.printToStatusField("Miss");
 						break;
 
 					case 's': // some ship was sunk
+						game.printToStatusField("You sunk my "+input.substring(2));
 						break;
 
 					case 'm': // Message, "m:This is my message."
@@ -107,7 +118,7 @@ public class Receiver implements Runnable {
 						break;
 
 					default:
-						// game.print(">>" + input);
+						game.printToStatusField("unknown input: "+input);
 						break;
 					}
 				}
