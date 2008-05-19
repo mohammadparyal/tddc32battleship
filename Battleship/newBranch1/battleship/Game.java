@@ -31,8 +31,8 @@ public class Game {
 
 	//Constructor
 	public Game(){
-		int rows = 6;
-		int cols = 6;
+		int rows = 10;
+		int cols = 10;
 		port = 31415;
 		gui = new GUI(rows, cols, this);
 		

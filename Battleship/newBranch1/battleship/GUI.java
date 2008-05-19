@@ -198,6 +198,7 @@ public class GUI extends JFrame {
 		});
 
 		setTitle("Battleship");
+						
 		pack();
 		
 		setVisible(true);
